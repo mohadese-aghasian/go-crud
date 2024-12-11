@@ -1,23 +1,33 @@
 package main
 
 import (
-	"go/initializers"
-
+	"example.com/go/config"
+	"example.com/go/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	initializers.LoadEnvVariables()
-	initializers.ConnectToDB()
+	// config.LoadEnvVariables()
+	config.ConnectToDB()
 
 }
 
 func main() {
+
+	// err := migrate.mig()
+
+	// if err != nil {
+	// 	panic("Migration failed: " + err.Error())
+	// }
+	// fmt.Println("Migration completed!")
+
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+	r.GET("/", controllers.Index)
+	r.POST("/blogs", controllers.BlogCreate)
+	r.GET("/blogs", controllers.BlogList)
+	r.GET("/blogs/:id", controllers.GetBlog)
+	r.PUT("/blogs", controllers.UpdateBlog)
+	r.DELETE("/blogs/:id", controllers.DeleteBlog)
+
+	r.Run(":3000")
 }

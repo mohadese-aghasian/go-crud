@@ -6,5 +6,5 @@ type Blog struct {
 	gorm.Model
 
 	Title string
-	body string
+	Body  string
 }
